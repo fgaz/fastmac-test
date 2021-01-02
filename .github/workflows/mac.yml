@@ -1,6 +1,12 @@
 name: mac
 on: 
   workflow_dispatch:
+    inputs:
+      home:
+        description: 'ref'
+        required: false
+        default: 'master'
+
 defaults:
   run:
     shell: bash
@@ -14,6 +20,8 @@ jobs:
         ssh_key: ${{ secrets.SSH_KEY }}
         key_file: id_ecdsa
     - uses: actions/checkout@v2
+      with:
+        ref: "${{ github.event.inputs.ref }}"
     - run: source script-mac.sh
     - name: Setup tmate session
       uses: mxschmitt/action-tmate@v2
